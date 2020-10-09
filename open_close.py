@@ -6,6 +6,9 @@ import sys
 pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
 num_cols = 8
 
+category ='OBC-NCL'
+seat_pool = 'Gender-Neutral'
+
 final_df = None
 
 for i in range(pdfReader.numPages):
@@ -35,7 +38,8 @@ for i in range(pdfReader.numPages):
     df['Page Number'] = i
 
 
-    df = df[(df['Category']=="OPEN") & (df['Seat Pool']=='Gender-Neutral')]
+    df = df[(df['Category']==category) & (df['Seat Pool']==seat_pool)]
+
     if final_df is None:
         final_df = df.copy()
     else:
@@ -54,4 +58,4 @@ final_df['Openning Rank'] = pd.to_numeric(final_df['Openning Rank'])
 final_df['Round No'] = pd.to_numeric(final_df['Round No'])
 
 final_df = final_df.sort_values('Closing Rank')
-final_df.to_excel('Open category _ Gender neutral.xlsx', index=False)
+final_df.to_excel(category + "_" + seat_pool + '.xlsx', index=False)
